@@ -1,3 +1,8 @@
+if exists("g:autoloaded_argh") || v:version < 700
+    finish
+endif
+let g:autoloaded_argh = 1
+
 function! argh#RemoveNonArgBuffers()
     let l:not_args = filter(range(1, bufnr('$')), 'bufhisted(v:val) && index(argv(), bufname(v:val)) == -1')
     if len(l:not_args) > 0
