@@ -30,9 +30,19 @@ function! argh#ArgumentsToggle(...)
     endif
 endfunction
 
-function! argh#DeleteAllBuffersOtherThanCurrent()
+function! argh#DeleteAllOtherBuffers()
     let l:all_others = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != bufnr("%")')
     if len(l:all_others) > 0
         execute "bdelete! ".join(l:all_others, ' ')
     endif
+endfunction
+
+function! argh#AddBuffers(files)
+    for f in split(a:files)
+        for g in split(glob(f))
+            if filereadable(g)
+                execute "badd ".g
+            endif
+        endfor
+    endfor
 endfunction
