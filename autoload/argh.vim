@@ -37,20 +37,27 @@ function! argh#DeleteAllOtherBuffers()
     endif
 endfunction
 
-function! argh#AddBuffers(files)
+function! argh#AddBuffers(addarg, files)
     for f in split(a:files)
         for g in split(glob(f))
             if filereadable(g)
                 execute "badd ".g
+                if a:addarg
+                    execute "argadd ".g
+                endif
             endif
         endfor
     endfor
 endfunction
 
-function! argh#DelBuffers(buffers)
-    for b in split(a:buffers)
+function! argh#DelBuffers(delarg, buffers)
+    let l:buffers = (strlen(a:buffers) > 0) ? a:buffers : bufname("%")
+    for b in split(l:buffers)
         for g in split(glob(b))
-            execute "bdelete! ".g
+            silent! execute "bdelete! ".g
+            if a:delarg
+                silent! execute "argdelete ".g
+            endif
         endfor
     endfor
 endfunction
