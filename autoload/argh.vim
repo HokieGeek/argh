@@ -46,3 +46,11 @@ function! argh#AddBuffers(files)
         endfor
     endfor
 endfunction
+
+function! argh#DelBuffers(buffers)
+    for b in split(a:buffers)
+        for g in split(glob(b))
+            execute "bdelete! ".g
+        endfor
+    endfor
+endfunction
