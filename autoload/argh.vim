@@ -61,3 +61,13 @@ function! argh#DelBuffers(delarg, buffers)
         endfor
     endfor
 endfunction
+
+function argh#OpenInNewTerminal(...)
+    if a:0 > 0
+        let l:files = join(map(split(a:000), 'fnamemodify(v:val, ":p")'), ' ')
+    else
+        let l:files = expand("%:p")
+    endif
+
+    call splitter#LaunchCommandHere("vim ".l:files, '???')
+endfunction
