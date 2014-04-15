@@ -30,6 +30,14 @@ function! argh#ArgumentsToggle(...)
     endif
 endfunction
 
+function! argh#AddAllBuffersAsArgs()
+    let l:not_args = filter(range(1, bufnr('$')), 'buflisted(v:val) && index(argv(), bufname(v:val)) == -1')
+    let l:not_args = map(l:not_args, 'bufname(v:val)')
+    if len(l:not_args) > 0
+        execute "argadd ".join(l:not_args, ' ')
+    endif
+endfunction
+
 function! argh#DeleteAllOtherBuffers()
     let l:all_others = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != bufnr("%")')
     if len(l:all_others) > 0
